@@ -1,0 +1,18 @@
+[project]
+name = "malvus_db"
+version = "0.1.0"
+description = "RAG pipeline based on the IAB Polska AI Guide 2024"
+authors = [{ name = "Twoje Imię", email = "twoj@email.com" }]
+requires-python = ">=3.9"
+
+dependencies = [
+    "pymilvus = "^2.4.0"
+    "sentence-transformers = "^2.6.1"
+    "torch",
+    "numpy",
+    "requests",
+    "pymupdf",  # czyli `fitz`
+]
+
+[tool.uv]
+# Możesz dodać tu ewentualne ustawienia buildów, ale uv działa od razu po zainicjalizowaniu
