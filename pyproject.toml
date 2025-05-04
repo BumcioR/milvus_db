@@ -1,18 +1,30 @@
 [project]
-name = "malvus_db"
+name = "malvus-db"
 version = "0.1.0"
 description = "RAG pipeline based on the IAB Polska AI Guide 2024"
 authors = [{ name = "Twoje Imię", email = "twoj@email.com" }]
 requires-python = ">=3.9"
 
 dependencies = [
-    "pymilvus = "^2.4.0"
-    "sentence-transformers = "^2.6.1"
+    "pymilvus",
+    "sentence-transformers",
     "torch",
     "numpy",
     "requests",
-    "pymupdf",  # czyli `fitz`
+    "pymupdf",
 ]
 
-[tool.uv]
-# Możesz dodać tu ewentualne ustawienia buildów, ale uv działa od razu po zainicjalizowaniu
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = [
+    "parse_pdf",
+    "embed_texts",
+    "insert_embeddings",
+    "milvus_client",
+    "insert_data",
+    "download_pdf",
+    "parse_pdf_to_json"
+]
