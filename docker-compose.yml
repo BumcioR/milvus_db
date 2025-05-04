@@ -1,0 +1,44 @@
+version: "3.8"
+services:
+  milvus-etcd:
+    image: quay.io/coreos/etcd:v3.5.0 # zmiana wersji obrazu
+    container_name: milvus-etcd
+    environment:
+      - ALLOW_NONE_AUTHENTICATION=yes
+    ports:
+      - "2379:2379"
+    networks:
+      - milvus-network
+
+  milvus-minio:
+    image: minio/minio:latest
+    container_name: milvus-minio
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: minio123
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command: server /data
+    networks:
+      - milvus-network
+
+  milvus-standalone:
+    image: milvusdb/milvus:v2.4.0
+    container_name: milvus-standalone
+    environment:
+      - ETCD_ENDPOINTS=http://milvus-etcd:2379
+      - MINIO_ADDRESS=milvus-minio:9000
+      - MILVUS_ROOT_PASSWORD=root
+    ports:
+      - "19530:19530" # Milvus grpc service
+      - "9091:9091" # Milvus REST service
+    depends_on:
+      - milvus-etcd
+      - milvus-minio
+    networks:
+      - milvus-network
+
+networks:
+  milvus-network:
+    driver: bridge
